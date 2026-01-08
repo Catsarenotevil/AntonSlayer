@@ -1,11 +1,11 @@
 ﻿import os
 import asyncio
-import random
 import json
 from datetime import datetime, timedelta, timezone
 from typing import Any, Dict, Optional, List, Tuple
 import sqlite3
 import shutil
+import aiohttp
 
 import discord
 from discord import app_commands
@@ -16,6 +16,7 @@ from aiohttp import web
 load_dotenv()
 
 # ====== ENV ======
+# Varför använder vi .strip(), är det något jag missar?
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN", "").strip()
 TARGET_CHANNEL_ID = int(os.getenv("TARGET_CHANNEL_ID", "0"))
 TARGET_STEAM64 = os.getenv("TARGET_STEAM64", "").strip()  # Anton Steam64
@@ -25,6 +26,7 @@ BOT_OWNER_ID = int(os.getenv("BOT_OWNER_ID", "0"))  # ditt Discord User ID
 DEV_MODE = str(os.getenv("DEV_MODE", "0")).strip().lower() in ("1", "true", "yes")
 # Optional TEST_GUILD_ID for fast guild-level slash command sync during development
 TEST_GUILD_ID = os.getenv("TEST_GUILD_ID", "").strip() or None
+LEETIFY_TOKEN = os.getenv("LEETIFY_TOKEN", "")
 
 if not DISCORD_TOKEN or TARGET_CHANNEL_ID == 0:
     raise RuntimeError("Saknar DISCORD_TOKEN eller TARGET_CHANNEL_ID i .env")
@@ -1056,5 +1058,34 @@ async def on_ready():
         print("Slash sync error:", repr(e))
 
     await start_gsi_server()
+
+
+async def fetch_leetify_api():
+    """Penis"""
+    url = "https://api-public.cs-prod.leetify.com"
+
+    headers = {
+        "Authorization": "Bearer {LEETIFY_TOKEN}"
+    }
+
+    async with aiohttp.ClientSession(headers=headers) as session:
+        async with session.get(f"{url}/v3/profile/matches") as r1:
+            r1.raise_for_status()
+            matches = await r1.json()
+
+        if not matches:
+            print("No matches found")
+            return
+
+        match_id = matches[0]["matchId"]
+
+        async with session.get(f"{url}/v2/matches/{match_id}") as r2:
+            if r2.status == 200:
+                data = await r2.json()
+                print(data)
+
+                return data
+            else:
+                print("Error fetching match:", r2.status)
 
 bot.run(DISCORD_TOKEN)
