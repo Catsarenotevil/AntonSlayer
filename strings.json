@@ -1,0 +1,39 @@
+{
+    "ROASTS": {
+        "BRUTAL": [
+            "Anton got more job interviews than kills this match.",
+            "Anton, even Volvo would reject you after this performance.",
+            "Anton, you have more failed interviews than headshots.",
+            "Anton, your gameplay is so bad even Volvo HR is laughing.",
+            "Anton, you should apply to Volvo - they love people who never hit their targets.",
+            "Anton, you missed more shots than you missed job offers from Volvo."
+        ],
+        "MEDIUM": [
+            "Anton, du hade kunnat vinna fler dueller om du spelade med fötterna.",
+            "Anton, du är som en eco-runda - ingen förväntar sig något.",
+            "Anton, du är så tyst på servern att till och med Discord undrar om du lever.",
+            "Anton, du är som en smoke - försvinner när det gäller.",
+            "Anton, du är som en decoy - ingen bryr sig."
+        ],
+        "MILD": [
+            "Anton, det var en match. Mer än så var det inte.",
+            "Anton, du var där. Det är ändå något.",
+            "Anton, ibland är det bättre att bara titta på.",
+            "Anton, du försökte i alla fall. Tror vi.",
+            "Anton, det är tanken som räknas. Kanske."
+        ]
+    },
+
+    "MAPS": [
+        "mirage",
+        "dust2",
+        "inferno",
+        "ancient",
+        "nuke",
+        "overpass",
+        "anubis",
+        "vertigo",
+        "train",
+        "cache"
+    ]
+}
