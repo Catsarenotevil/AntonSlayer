@@ -78,8 +78,8 @@ async def check_leetify():
         return
 
     try:
-        matches = fetch_latest_matches(LEETIFY_TOKEN)
-        await process_matches(matches, channel, LEETIFY_TOKEN)
+        matches = fetch_latest_matches(TARGET_STEAM64, LEETIFY_TOKEN)
+        await process_matches(matches, channel)
     except Exception as e:
         print(f"Error fetching matches: {e}")
 
