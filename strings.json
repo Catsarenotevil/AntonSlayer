@@ -22,18 +22,5 @@
             "Anton, du försökte i alla fall. Tror vi.",
             "Anton, det är tanken som räknas. Kanske."
         ]
-    },
-
-    "MAPS": [
-        "mirage",
-        "dust2",
-        "inferno",
-        "ancient",
-        "nuke",
-        "overpass",
-        "anubis",
-        "vertigo",
-        "train",
-        "cache"
-    ]
+    }
 }

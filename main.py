@@ -13,7 +13,7 @@ from dotenv import load_dotenv
 
 from utils.database import init_db
 from utils.leetify import fetch_latest_matches, process_matches
-from utils.strings import load_strings, get_string
+from utils.strings import load_strings
 
 # Init
 load_dotenv()
