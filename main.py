@@ -17,7 +17,6 @@ from utils.strings import load_strings
 
 # Init
 load_dotenv()
-init_db()
 load_strings()
 
 # ====== ENV ======
@@ -78,8 +77,8 @@ async def check_leetify():
         return
 
     try:
-        matches = fetch_latest_matches(TARGET_STEAM64, LEETIFY_TOKEN)
-        await process_matches(matches, channel)
+        matches = await fetch_latest_matches(TARGET_STEAM64, LEETIFY_TOKEN)
+        await process_matches(matches, channel, TARGET_STEAM64, LEETIFY_TOKEN)
     except Exception as e:
         print(f"Error fetching matches: {e}")
 
@@ -91,6 +90,7 @@ async def on_ready():
     """
     print(f"Logged in as {bot.user}")
 
+    await init_db()
     check_leetify.start()
 
     try:

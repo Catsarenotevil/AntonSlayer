@@ -20,6 +20,8 @@ async def init_db():
         """)
         await db.commit()
 
+        print("initialized database")
+
 async def get_last_match_id():
     async with aiosqlite.connect(DB_FILE) as db:
         async with db.execute(

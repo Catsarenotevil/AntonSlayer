@@ -21,11 +21,4 @@ def get_string(key: str) -> str:
 
 def get_random_string(category):
     """Get a random string based on category."""
-    if category < 50:
-        category = "low"
-    elif 50 <= category < 80:
-        category = "mid"
-    else:
-        category = "high"
-
-    return random.choice(_STRINGS.get(category, ["No message available."]))
+    return random.choice(_STRINGS["ROASTS"].get(category, ["No message available."]))
