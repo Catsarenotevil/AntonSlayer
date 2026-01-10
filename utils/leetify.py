@@ -92,14 +92,33 @@ async def process_matches(matches: dict, channel, steamid: str, token: str):
     embed.add_field(name="Faceit Rank", value=f"┗ ` {faceit_rank} `", inline=True)
     embed.add_field(name="Leetify Rating", value=f"┗ ` {leetify_rank} `", inline=True)
 
-    image = get_map_image(latest_match["map_name"])
-    file = discord.File(image, filename="map_image.png")
+    team_scores = latest_match["team_scores"]
+    initial_team = stats["initial_team_number"]
+    scores = {team["team_number"]: team["score"] for team in team_scores}
+
+    score = scores[initial_team]
+    opponent_scores = [score for team, score in scores.items() if team != initial_team]
+    opponent_score = max(opponent_scores)
+
+    if score > opponent_score:
+        result = "win"
+    elif score < opponent_score:
+        result = "loss"
+    else:
+        result = "tie"
+
+    result_image = Path("assets/match") / f"{result}.png"
+    result_file = discord.File(result_image, filename="result_image.png")
+    embed.set_image(url="attachment://result_image.png")
+
+    map_image = get_map_image(latest_match["map_name"])
+    map_file = discord.File(map_image, filename="map_image.png")
     embed.set_footer(
         text=f"{latest_match["map_name"]} - {latest_match["team_scores"][0]["score"]}:{latest_match["team_scores"][1]["score"]}",
         icon_url="attachment://map_image.png"
     )
 
-    await channel.send(file=file, embed=embed)
+    await channel.send(files=[result_file, map_file], embed=embed)
 
     await set_last_match_id(latest_match_id)
 
@@ -110,7 +129,7 @@ def get_map_image(map_name: str) -> Path:
     image_path = IMAGE_DIR / f"{map_name}.png"
     return image_path if image_path.exists() else FALLBACK_IMAGE
 
-def progress_bar(winrate, width=50):
+def progress_bar(winrate, width=45):
     winrate = max(0, min(winrate, 1))
     filled = int(winrate * width)
 
