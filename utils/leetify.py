@@ -68,14 +68,14 @@ async def process_matches(matches: dict, channel, steamid: str, token: str):
         color = discord.Color.green()
         message = get_random_string("MILD")
     elif 1.5 >= rating > -3.0:
-        color = discord.Color.orange()
+        color = discord.Color.yellow()
         message = get_random_string("MEDIUM")
     else:
         color = discord.Color.red()
         message = get_random_string("BRUTAL")
 
     embed = discord.Embed(
-        title="📊 Post-Match Analysis",
+        title="📊 Post-Anton-Match Analysis",
         description=message,
         color=color,
         timestamp=datetime.strptime(latest_match["finished_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -135,7 +135,7 @@ def progress_bar(winrate, width=45):
 
     GREEN = "\u001b[32;1m"
     RED = "\u001b[31;1m"
-    RESET = "\u001b[0m"
+    RESET = "\u001b[0;0m"
 
     bar = (
         GREEN + "■" * filled +
