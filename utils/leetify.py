@@ -6,7 +6,7 @@ from datetime import datetime
 from pathlib import Path
 import aiohttp
 import discord
-from utils.database import get_last_match_id, set_last_match_id
+from utils.database import get_last_match_id, set_last_match_id, insert_match
 from utils.strings import get_random_string
 
 URL = "https://api-public.cs-prod.leetify.com"
@@ -29,6 +29,9 @@ async def fetch_latest_matches(steamid: str, token: str):
     return matches
 
 async def process_matches(matches: dict, channel, steamid: str, token: str):
+    for match in matches:
+        await insert_match(match)
+
     latest_match = matches[0]
     latest_match_id = latest_match["id"]
 
@@ -81,12 +84,15 @@ async def process_matches(matches: dict, channel, steamid: str, token: str):
         timestamp=datetime.strptime(latest_match["finished_at"], "%Y-%m-%dT%H:%M:%S.%fZ")
     )
 
+    embed.add_field(name="\u200B", value="**Match Stats:**", inline=False)
     embed.add_field(name="💀 Kills", value=f"┗ ` {total_kills} `", inline=True)
     embed.add_field(name="🪦 Deaths", value=f"┗ ` {total_deaths} `", inline=True)
     embed.add_field(name="🎯 K/D", value=f"┗ ` {kd_ratio} `", inline=True)
     embed.add_field(name="🏆 MVPs", value=f"┗ ` {mvps} `", inline=True)
     embed.add_field(name="🤝 Assists", value=f"┗ ` {total_assists} `", inline=True)
     embed.add_field(name="🥊 Damage", value=f"┗ ` {total_damage} `", inline=True)
+
+    embed.add_field(name="\u200B", value="**Post-Match Stats:**", inline=False)
     embed.add_field(name=f"Win Rate - {winrate*100}%", value=f"{progress_bar(winrate)}", inline=False)
     embed.add_field(name="Premier Rank", value=f"┗ ` {premier_rank} `", inline=True)
     embed.add_field(name="Faceit Rank", value=f"┗ ` {faceit_rank} `", inline=True)

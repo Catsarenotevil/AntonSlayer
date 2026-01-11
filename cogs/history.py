@@ -9,13 +9,12 @@ class History(commands.Cog):
     def __init__(self, bot: commands.Bot):
         self.bot = bot
 
-    # Slash command example
     @app_commands.command(name="history", description="Get various Anton history")
     @app_commands.describe(category="Category")
     @app_commands.choices(category=[
-        Choice(name='Kills', value="1"),
-        Choice(name='Rating', value="2"),
-        Choice(name='Match', value="3"),
+        Choice(name='Matches', value="1"),
+        Choice(name='Kills', value="2"),
+        Choice(name='Rating', value="3"),
     ])
     async def history(self, interaction: discord.Interaction, category: Choice[str]):
         await interaction.response.send_message(content="PONG")
